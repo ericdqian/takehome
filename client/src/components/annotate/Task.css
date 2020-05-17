@@ -1,0 +1,23 @@
+.TaskImageContainer {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+.Canvas {
+  z-index: 1000;
+  display: inline-block;
+  border: 1px solid black;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+
+.Annotation {
+  color: red;
+  display: inline-block;
+  border: 2px solid red;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
