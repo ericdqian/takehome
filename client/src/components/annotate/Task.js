@@ -103,40 +103,30 @@ class Task extends React.Component {
     }
 
     const {x1, y1, x2, y2, is_drawing, current_annotation, canvas_width, canvas_height} = this.state;
-
+    const [w, h, left, top] = this.getBounds(x1, x2, y1, y2)
+    
+    var current_box
     if (is_drawing) {
+      current_box = [<div className = 'Annotation' style = {{height: h, width:w, left: left, top: top}}>{current_annotation}</div>]
+    } else {
+      current_box = []
+    }
 
-      const [w, h, left, top] = this.getBounds(x1, x2, y1, y2)
-      return (
+    return (
 
         <div className="Task">
           <div className = 'TaskImageContainer'>
             <img id = 'TaskImage' src={this.props.task.img_url}/>
-            <div className = 'Annotation' style = {{height: h, width:w, left: left, top: top}}>{current_annotation}</div>
+
             <div className = 'Canvas' style = {{height: canvas_height, width: canvas_width}}
                onMouseDown={ this.onMouseDown }
                onMouseUp={ this.onMouseUp }
                onMouseMove={ this.onMouseMove}></div>
+            {current_box}
             {annotations}
           </div>
         </div>
       )
-    } else {
-      return (
-
-        <div className="Task">
-          <div className = 'TaskImageContainer'>
-            <img id = 'TaskImage' src={this.props.task.img_url}/>
-            <div className = 'Canvas' style = {{height: canvas_height, width: canvas_width}}
-               onMouseDown={ this.onMouseDown }
-               onMouseUp={ this.onMouseUp }
-               onMouseMove={ this.onMouseMove}>  </div>
-
-            {annotations}
-          </div>
-        </div>
-      )
-    }
 
   }
 }
