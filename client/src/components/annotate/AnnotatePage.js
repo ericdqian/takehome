@@ -30,7 +30,7 @@ class AnnotatePage extends React.Component {
 
         <div className="ClassifyPage">
           <div> random </div>
-          <Task  task = {tasks[current_task_id]} />
+          <Task  task = {tasks[current_task_id]}/>
         </div>
       )
     } else {

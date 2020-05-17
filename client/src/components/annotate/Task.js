@@ -6,7 +6,7 @@ class Task extends React.Component {
     super(props);
     this.state = {
       annotations: [],
-      current_annotation: 'cow',
+      current_annotation: this.props.task.objects_to_annotate[0],
       is_drawing: false,
       x1: 0,
       y1: 0,
@@ -15,6 +15,8 @@ class Task extends React.Component {
       canvas_width: 0,
       canvas_height: 0
     };
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -26,16 +28,17 @@ class Task extends React.Component {
 
 
   onMouseDown = (event) => {
-
     this.setState(prevState => ({
       is_drawing: !this.state.is_drawing
     }))
     if (!this.state.is_drawing) {
+      const x = event.pageX
+      const y = event.pageY
       this.setState({
-        x1: event.pageX - event.target.offsetLeft,
-        y1: event.pageY - event.target.offsetTop,
-        x2: event.pageX - event.target.offsetLeft,
-        y2: event.pageY - event.target.offsetTop,
+        x1: x,
+        y1: y,
+        x2: x,
+        y2: y
       })
 
     } else {
@@ -57,14 +60,12 @@ class Task extends React.Component {
   onMouseMove = (event: MouseEvent) => {
     const {is_drawing, canvas_width, canvas_height} = this.state;
     if (is_drawing) {
-      const x = event.pageX - event.target.offsetLeft
-      const y = event.pageY - event.target.offsetTop
-      if (x <= canvas_width && y <= canvas_height) {
-        this.setState({
-          x2: x,
-          y2: y
-        })
-      }
+      const x = event.pageX
+      const y = event.pageY
+      this.setState({
+        x2: x,
+        y2: y
+      })
 
     }
 
@@ -92,19 +93,24 @@ class Task extends React.Component {
     return [w, h, left, top]
   }
 
+  handleChange(event) {
+    this.setState({current_annotation: event.target.value});
+  }
 
 
   render() {
     const annotations = []
     for(var i = 0; i < this.state.annotations.length; i++) {
       const box = this.state.annotations[i]
-
       annotations.push(<div className = 'Annotation' style = {{height: box.h, width: box.w, left: box.left, top: box.top}}>{box.annotation} </div>)
     }
+    const objects_to_annotate = this.props.task.objects_to_annotate.map(object_to_annotate =>
+      <option value={object_to_annotate}>{object_to_annotate}</option>
+    )
 
     const {x1, y1, x2, y2, is_drawing, current_annotation, canvas_width, canvas_height} = this.state;
     const [w, h, left, top] = this.getBounds(x1, x2, y1, y2)
-    
+
     var current_box
     if (is_drawing) {
       current_box = [<div className = 'Annotation' style = {{height: h, width:w, left: left, top: top}}>{current_annotation}</div>]
@@ -112,19 +118,28 @@ class Task extends React.Component {
       current_box = []
     }
 
+
+
     return (
 
         <div className="Task">
+          <div className = 'AnnotationChoicesContainer'>
+            <form>
+            <select value={this.state.current_annotation} onChange={this.handleChange}>
+              {objects_to_annotate}
+            </select>
+            </form>
+          </div>
           <div className = 'TaskImageContainer'>
             <img id = 'TaskImage' src={this.props.task.img_url}/>
-
             <div className = 'Canvas' style = {{height: canvas_height, width: canvas_width}}
                onMouseDown={ this.onMouseDown }
-               onMouseUp={ this.onMouseUp }
                onMouseMove={ this.onMouseMove}></div>
-            {current_box}
-            {annotations}
+
+
           </div>
+          {current_box}
+          {annotations}
         </div>
       )
 

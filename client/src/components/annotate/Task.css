@@ -1,7 +1,7 @@
 .TaskImageContainer {
   position: absolute;
-  left: 20px;
-  top: 20px;
+  left: 20%;
+  top: 10%;
 }
 .Canvas {
   z-index: 1000;
