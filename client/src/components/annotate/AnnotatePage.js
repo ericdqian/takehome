@@ -15,7 +15,7 @@ class AnnotatePage extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8000/api/tasks/get-tasks', {
+    fetch('/api/tasks/get-tasks', {
     })
     .then(response => response.json())
     .then(data => {

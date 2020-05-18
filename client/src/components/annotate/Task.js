@@ -124,7 +124,7 @@ class Task extends React.Component {
           comments: this.state.comments,
         })
     };
-    fetch('http://localhost:8000/api/tasks/submit-report', requestOptions)
+    fetch('/api/tasks/submit-report', requestOptions)
       .then(response => response.json());
     this.setState({ annotations: [], comments: '' })
     this.props.onSubmit();
@@ -142,7 +142,7 @@ class Task extends React.Component {
         })
     };
     console.log(requestOptions.body);
-    fetch('http://localhost:8000/api/tasks/submit-annotations', requestOptions)
+    fetch('/api/tasks/submit-annotations', requestOptions)
       .then(response => response.json());
     this.setState({ annotations: [], comments: [] })
     this.props.onSubmit();
