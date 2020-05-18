@@ -27,11 +27,11 @@ class Task extends React.Component {
     this.setState({ canvas_width: width, canvas_height: height});
   }
 
-  componentDidUpdate() {
+  handleImageLoaded() {
     const height = document.getElementById('TaskImage').clientHeight;
     const width = document.getElementById('TaskImage').clientWidth;
     if (this.state.canvas_width !== width && this.state.canvas_height !== height) {
-      this.setState({ canvas_width: width, canvas_height: height});
+      this.setState({ canvas_width: width, canvas_height: height, annotations: []});
     }
 
   }
@@ -81,9 +81,7 @@ class Task extends React.Component {
         x2: x,
         y2: y
       })
-
     }
-
   };
 
   getBounds = (x1, x2, y1, y2) => {
@@ -123,7 +121,6 @@ class Task extends React.Component {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           task_id:  task.task_id,
-          annotations: this.state.annotations,
           comments: this.state.comments,
         })
     };
@@ -144,6 +141,7 @@ class Task extends React.Component {
           comments: this.state.comments,
         })
     };
+    console.log(requestOptions.body);
     fetch('http://localhost:8000/api/tasks/submit-annotations', requestOptions)
       .then(response => response.json());
     this.setState({ annotations: [], comments: [] })
@@ -175,15 +173,25 @@ class Task extends React.Component {
 
         <div className="Task">
           <div id = 'TaskInstructionsContainer' className = 'Container'>
-            <h4>
-              Instructions:
-            </h4>
+            <div  id = 'InstructionsHeader' className = 'Header'>
+              Instructions
+            </div>
             <div id = 'InstructionsText'>
-             {this.props.task.instructions}
+              <p>
+                <b>General instructions: </b>
+                Choose the desired label from the dropdown, then draw boxes around the corresponding locations in the image.
+                Press reset to erase all boxes, add any relevant comments, and submit when finished labeling.
+                Use next and previous to toggle between images.
+                If there is an issue with the image or instructions, fill out any relevant comments, and click report.
+              </p>
+              <p>
+                <b>Instructions from client:</b> {this.props.task.instructions}
+              </p>
+
             </div>
           </div>
           <div className = 'TaskImageContainer'>
-            <img id = 'TaskImage' className = 'Offset' src={this.props.task.img_url}/>
+            <img id = 'TaskImage' className = 'Offset' src={this.props.task.img_url} onLoad={this.handleImageLoaded.bind(this)}/>
             <div className = 'Detector Offset' style = {{height: canvas_height, width: canvas_width}}
               onMouseDown={ this.onMouseDown }
               onMouseMove={ this.onMouseMove }>
@@ -195,18 +203,24 @@ class Task extends React.Component {
           </div>
 
           <div id = 'AnnotationChoicesContainer' className = 'Container'>
-            <h4>
-              Labels:
-            </h4>
-            <form >
-            <select id = 'TaskForm' value={this.state.current_annotation} onChange={this.handleObjectChange}>
+            <div id = 'AnnotationHeader' className = 'Header'>
+              Labels
+            </div>
+            <form id = 'LabelsForm'>
+            <select  value={this.state.current_annotation} onChange={this.handleObjectChange}>
               {objects_to_annotate}
             </select>
             </form>
           </div>
 
-          <div id = 'ButtonsContainer' className = ''>
-            <button id = '' className = 'CustomListingsButton' onClick = {() => {this.onReport();}}>
+          <div id = 'CommentsContainer' className = 'Container'>
+            <form >
+              <textarea type="text" id = 'CommentsBox' placeholder = {'Comments'} value={this.state.comments} onChange={this.handleCommentChange} />
+            </form>
+          </div>
+
+          <div id = 'ButtonsContainer' className = 'Container'>
+            <button id = 'ReportButton' className = 'Button' onClick = {() => {this.onReport();}}>
               Report
             </button>
             <button id = 'ResetButton' className = 'Button' onClick = {() => {this.setState({annotations: []})}}>
@@ -217,12 +231,7 @@ class Task extends React.Component {
             </button>
           </div>
 
-          <div id = 'CommentsContainer'>
-            <label>
-              Comments:
-              <input type="text" value={this.state.comments} onChange={this.handleCommentChange} />
-            </label>
-          </div>
+
 
         </div>
       )

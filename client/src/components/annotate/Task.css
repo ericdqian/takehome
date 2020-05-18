@@ -1,7 +1,6 @@
 .TaskImageContainer {
-  /* position: absolute; */
   left: 0px;
-  top: 100px;
+  top: 0px;
   width: 100%;
   height: 50%;
   display: inline-block;
@@ -19,21 +18,10 @@
   border: 1px solid black;
 }
 
-#TaskImage {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-
-}
-
-#TaskForm {
-  margin-top: 100px;
-
-}
 
 .Offset {
-  margin: auto;
-  left: 30%;
+  left: 35%;
+  top: 20px;
   position: absolute;
 
 }
@@ -47,28 +35,68 @@
   top: 0px;
 }
 
-.Container {
-  text-align: center;
-  background-color: lightgrey;
-  border-radius: 10px;
-  padding: 1px;
+
+
+.Header {
+  /* height: 40px; */
+  width: 100%;
+  margin: 0 auto 20px;
+  background-color: black;
+  color: white;
+  padding: 15px 0px;
 }
 
 #TaskInstructionsContainer{
 
-  width: 50%;
-  margin: auto;
-
+  margin-top: 20px;
 }
+
 #InstructionsText {
-  margin-bottom: 15px;
+  width: auto;
+  padding: 15px;
+  border: solid 1px black;
+  text-align: left;
+  margin-bottom: 0px;
 }
 
 #AnnotationChoicesContainer {
-  width: 15%;
+  height: 80px;
 }
+
+#AnnotationHeader {
+  width: 40%;
+  margin-left: 0px;
+  float: left;
+  display: inline;
+}
+
+#LabelsForm {
+  display: inline;
+  width: 20%;
+
+}
+
+
 
 #TaskForm {
   margin: 0px auto 5px;
-  /* display: block; */
+}
+
+#CommentsBox{
+  width: calc(100% - 30px);
+  height: 100px;
+  overflow-wrap: anywhere;
+  resize: none;
+  padding: 15px 15px;
+}
+
+
+
+#ReportButton {
+  float: left;
+}
+
+#SubmitButton {
+  float: right;
+  background-color: navy;
 }

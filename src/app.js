@@ -12,6 +12,9 @@ app.use(cors({
   origin: ['http://localhost:3000']
 }));
 
+app.use(express.urlencoded());
+app.use(express.json());
+
 
 app.get('/', (req, res) => res.send('test'))
 

@@ -1,0 +1,24 @@
+.Button {
+  background-color: lightgrey;
+  color: white;
+  padding: 15px;
+  font-size: 15px;
+  width: 30%;
+  display:inline-block;
+}
+
+.Container {
+  text-align: center;
+  padding: 1px;
+  margin-bottom: 10px;
+  width: 25%;
+  margin-left: 3%;
+}
+
+#PrevButton {
+  float: left;
+}
+
+#NextButton {
+  float: right;
+}
