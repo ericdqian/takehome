@@ -4,7 +4,6 @@ const tasks = require('./routes/tasks')
 
 const app = express();
 const port = 8000;
-// const server = http.createServer(app);
 
 app.use(cors({
   allowedHeaders: ['sessionId', 'Content-Type'],
@@ -15,12 +14,8 @@ app.use(cors({
 app.use(express.urlencoded());
 app.use(express.json());
 
-
 app.get('/', (req, res) => res.send('test'))
-
 app.use('/api/tasks/', tasks)
-
-
 
 app.listen(port, () => {
   console.log('Express server listening on port ' + port);

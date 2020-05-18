@@ -80,6 +80,8 @@
   overflow-wrap: anywhere;
   resize: none;
   padding: 15px;
+  font-family: Sans-Serif;
+  font-weight: 300;
 }
 
 #ButtonsContainer {
