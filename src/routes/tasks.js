@@ -68,7 +68,7 @@ router.post('/submit-annotations', async (req, res, next) => {
         var db = client.db('Tasks');
         db.collection('Sandbox').find({'task_id': task_id}).toArray(function(err, data) {
           if (err) throw err;
-          //add chcek for valid id later
+          //add check for valid id later
           const query = data[0];
           const newvalues = { $set: {status: 'Complete', annotations: annotations, comments: comments } }
           db.collection('Sandbox').updateOne(query, newvalues, function(err, data) {
