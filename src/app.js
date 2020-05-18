@@ -15,7 +15,6 @@ app.use(cors({
 app.use(express.urlencoded());
 app.use(express.json());
 
-app.get('/', (req, res) => res.send('test'))
 app.use('/api/tasks/', tasks)
 
 if (process.env.NODE_ENV === 'production') {
