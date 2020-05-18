@@ -41,10 +41,15 @@ router.get('/get-tasks', async (req, res, next) => {
           })
 
         });
+      } else {
+        //failed to connect to mongo: send some sample tasks
+        res.status(200).send({
+          tasks: sample_tasks
+        })
       }
     });
   } catch (e) {
-    //failed to connect to mongo: send some sample tasks
+    //other error: send some sample tasks
     res.status(200).send({
       tasks: sample_tasks
     })
