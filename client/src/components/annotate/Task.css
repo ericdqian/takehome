@@ -1,23 +1,74 @@
 .TaskImageContainer {
-  position: absolute;
-  left: 20%;
-  top: 10%;
+  /* position: absolute; */
+  left: 0px;
+  top: 100px;
+  width: 100%;
+  height: 50%;
+  display: inline-block;
 }
-.Canvas {
+.Detector {
   z-index: 1000;
   display: inline-block;
-  border: 1px solid black;
   position: absolute;
-  left: 0px;
-  top: 0px;
+
 }
 
+.Canvas {
+  z-index: 1;
+  display: inline-block;
+  border: 1px solid black;
+}
 
+#TaskImage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+#TaskForm {
+  margin-top: 100px;
+
+}
+
+.Offset {
+  margin: auto;
+  left: 30%;
+  position: absolute;
+
+}
 .Annotation {
+  z-index: 10;
   color: red;
   display: inline-block;
   border: 2px solid red;
   position: absolute;
   left: 0px;
   top: 0px;
+}
+
+.Container {
+  text-align: center;
+  background-color: lightgrey;
+  border-radius: 10px;
+  padding: 1px;
+}
+
+#TaskInstructionsContainer{
+
+  width: 50%;
+  margin: auto;
+
+}
+#InstructionsText {
+  margin-bottom: 15px;
+}
+
+#AnnotationChoicesContainer {
+  width: 15%;
+}
+
+#TaskForm {
+  margin: 0px auto 5px;
+  /* display: block; */
 }

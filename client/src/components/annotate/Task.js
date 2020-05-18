@@ -13,18 +13,33 @@ class Task extends React.Component {
       x2: 0,
       y2: 0,
       canvas_width: 0,
-      canvas_height: 0
+      canvas_height: 0,
+      comments: ''
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleObjectChange = this.handleObjectChange.bind(this);
+    this.handleCommentChange = this.handleCommentChange.bind(this);
   }
 
   componentDidMount() {
     const height = document.getElementById('TaskImage').clientHeight;
     const width = document.getElementById('TaskImage').clientWidth;
-    console.log(width, height)
-    this.setState({ canvas_width: width, canvas_height: height });
+    this.setState({ canvas_width: width, canvas_height: height});
   }
+
+  componentDidUpdate() {
+    const height = document.getElementById('TaskImage').clientHeight;
+    const width = document.getElementById('TaskImage').clientWidth;
+    if (this.state.canvas_width !== width && this.state.canvas_height !== height) {
+      this.setState({ canvas_width: width, canvas_height: height});
+    }
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ current_annotation: nextProps.task.objects_to_annotate[0] });
+  }
+
 
 
   onMouseDown = (event) => {
@@ -32,8 +47,8 @@ class Task extends React.Component {
       is_drawing: !this.state.is_drawing
     }))
     if (!this.state.is_drawing) {
-      const x = event.pageX
-      const y = event.pageY
+      const x = event.pageX - event.target.offsetLeft
+      const y = event.pageY - event.target.offsetTop
       this.setState({
         x1: x,
         y1: y,
@@ -60,8 +75,8 @@ class Task extends React.Component {
   onMouseMove = (event: MouseEvent) => {
     const {is_drawing, canvas_width, canvas_height} = this.state;
     if (is_drawing) {
-      const x = event.pageX
-      const y = event.pageY
+      const x = event.pageX - event.target.offsetLeft;
+      const y = event.pageY - event.target.offsetTop;
       this.setState({
         x2: x,
         y2: y
@@ -93,8 +108,46 @@ class Task extends React.Component {
     return [w, h, left, top]
   }
 
-  handleChange(event) {
+  handleObjectChange(event) {
     this.setState({current_annotation: event.target.value});
+  }
+
+  handleCommentChange(event) {
+    this.setState({comments: event.target.value});
+  }
+
+  onReport() {
+    const {task} = this.props
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          task_id:  task.task_id,
+          annotations: this.state.annotations,
+          comments: this.state.comments,
+        })
+    };
+    fetch('http://localhost:8000/api/tasks/submit-report', requestOptions)
+      .then(response => response.json());
+    this.setState({ annotations: [], comments: [] })
+    this.props.onSubmit();
+  }
+
+  onSubmit() {
+    const {task} = this.props
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          task_id:  task.task_id,
+          annotations: this.state.annotations,
+          comments: this.state.comments,
+        })
+    };
+    fetch('http://localhost:8000/api/tasks/submit-annotations', requestOptions)
+      .then(response => response.json());
+    this.setState({ annotations: [], comments: [] })
+    this.props.onSubmit();
   }
 
 
@@ -111,35 +164,66 @@ class Task extends React.Component {
     const {x1, y1, x2, y2, is_drawing, current_annotation, canvas_width, canvas_height} = this.state;
     const [w, h, left, top] = this.getBounds(x1, x2, y1, y2)
 
-    var current_box
+    var current_box;
     if (is_drawing) {
       current_box = [<div className = 'Annotation' style = {{height: h, width:w, left: left, top: top}}>{current_annotation}</div>]
     } else {
       current_box = []
     }
 
-
-
     return (
 
         <div className="Task">
-          <div className = 'AnnotationChoicesContainer'>
-            <form>
-            <select value={this.state.current_annotation} onChange={this.handleChange}>
+          <div id = 'TaskInstructionsContainer' className = 'Container'>
+            <h4>
+              Instructions:
+            </h4>
+            <div id = 'InstructionsText'>
+             {this.props.task.instructions}
+            </div>
+          </div>
+          <div className = 'TaskImageContainer'>
+            <img id = 'TaskImage' className = 'Offset' src={this.props.task.img_url}/>
+            <div className = 'Detector Offset' style = {{height: canvas_height, width: canvas_width}}
+              onMouseDown={ this.onMouseDown }
+              onMouseMove={ this.onMouseMove }>
+            </div>
+            <div className = 'Canvas Offset' style = {{height: canvas_height, width: canvas_width}}>
+              {current_box}
+              {annotations}
+            </div>
+          </div>
+
+          <div id = 'AnnotationChoicesContainer' className = 'Container'>
+            <h4>
+              Labels:
+            </h4>
+            <form >
+            <select id = 'TaskForm' value={this.state.current_annotation} onChange={this.handleObjectChange}>
               {objects_to_annotate}
             </select>
             </form>
           </div>
-          <div className = 'TaskImageContainer'>
-            <img id = 'TaskImage' src={this.props.task.img_url}/>
-            <div className = 'Canvas' style = {{height: canvas_height, width: canvas_width}}
-               onMouseDown={ this.onMouseDown }
-               onMouseMove={ this.onMouseMove}></div>
 
-
+          <div id = 'ButtonsContainer' className = ''>
+            <button id = '' className = 'CustomListingsButton' onClick = {() => {this.onReport();}}>
+              Report
+            </button>
+            <button id = 'ResetButton' className = 'Button' onClick = {() => {this.setState({annotations: []})}}>
+              Reset
+            </button>
+            <button id = 'SubmitButton' className = 'Button' onClick = {() => {this.onSubmit();}}>
+              Submit
+            </button>
           </div>
-          {current_box}
-          {annotations}
+
+          <div id = 'CommentsContainer'>
+            <label>
+              Comments:
+              <input type="text" value={this.state.comments} onChange={this.handleCommentChange} />
+            </label>
+          </div>
+
         </div>
       )
 

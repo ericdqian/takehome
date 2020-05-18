@@ -6,8 +6,11 @@ class AnnotatePage extends React.Component {
     super(props);
     this.state = {
       tasks: [],
-      current_task_id: -1
+      current_task_ind: -1,
+      comments: ''
     };
+
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -15,28 +18,39 @@ class AnnotatePage extends React.Component {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data)
       if (data.tasks.length > 0) {
-        this.setState({tasks: data.tasks, current_task_id: 0});
+        this.setState({tasks: data.tasks, current_task_ind: 0});
       }
     });
   }
 
+
+
+  onSubmit() {
+
+    var remaining = [...this.state.tasks]
+    remaining.splice(this.state.current_task_ind, 1);
+    if(remaining.length === 0) {
+      this.setState({current_task_ind: -1})
+    }
+    this.setState({tasks: remaining});
+  }
+
+
   render() {
-    const {tasks, current_task_id} = this.state;
-    console.log(tasks[current_task_id])
-    if (this.state.current_task_id !== -1) {
+    const {tasks, current_task_ind} = this.state;
+    if (this.state.current_task_ind !== -1) {
       return (
 
         <div className="ClassifyPage">
-          <div> random </div>
-          <Task  task = {tasks[current_task_id]}/>
+          <Task  task = {tasks[current_task_ind]} onSubmit = {this.onSubmit}/>
+
         </div>
       )
     } else {
       return (
         <div>
-          Loading...
+          No tasks!
         </div>
       )
     }
