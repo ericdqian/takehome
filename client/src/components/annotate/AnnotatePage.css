@@ -1,5 +1,10 @@
+body {
+  font-family: Sans-Serif;
+  font-weight: 300;
+}
+
 .Button {
-  background-color: lightgrey;
+  background-color: grey;
   color: white;
   padding: 15px;
   font-size: 15px;

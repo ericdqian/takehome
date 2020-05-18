@@ -5,11 +5,11 @@
   height: 50%;
   display: inline-block;
 }
+
 .Detector {
   z-index: 1000;
   display: inline-block;
   position: absolute;
-
 }
 
 .Canvas {
@@ -18,13 +18,12 @@
   border: 1px solid black;
 }
 
-
 .Offset {
   left: 35%;
   top: 20px;
   position: absolute;
-
 }
+
 .Annotation {
   z-index: 10;
   color: red;
@@ -35,10 +34,7 @@
   top: 0px;
 }
 
-
-
 .Header {
-  /* height: 40px; */
   width: 100%;
   margin: 0 auto 20px;
   background-color: black;
@@ -47,7 +43,6 @@
 }
 
 #TaskInstructionsContainer{
-
   margin-top: 20px;
 }
 
@@ -60,7 +55,7 @@
 }
 
 #AnnotationChoicesContainer {
-  height: 80px;
+  height: 60px;
 }
 
 #AnnotationHeader {
@@ -73,10 +68,7 @@
 #LabelsForm {
   display: inline;
   width: 20%;
-
 }
-
-
 
 #TaskForm {
   margin: 0px auto 5px;
@@ -87,10 +79,13 @@
   height: 100px;
   overflow-wrap: anywhere;
   resize: none;
-  padding: 15px 15px;
+  padding: 15px;
 }
 
-
+#ButtonsContainer {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
 #ReportButton {
   float: left;

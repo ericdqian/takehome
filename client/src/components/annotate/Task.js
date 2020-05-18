@@ -126,7 +126,7 @@ class Task extends React.Component {
     };
     fetch('http://localhost:8000/api/tasks/submit-report', requestOptions)
       .then(response => response.json());
-    this.setState({ annotations: [], comments: [] })
+    this.setState({ annotations: [], comments: '' })
     this.props.onSubmit();
   }
 
