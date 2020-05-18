@@ -67,7 +67,12 @@
 
 #LabelsForm {
   display: inline;
-  width: 20%;
+  width: 40%;
+  height: 50px;
+  font-size: 15px;
+  font-family: Sans-Serif;
+  font-weight: 300;
+  float: right;
 }
 
 #TaskForm {
@@ -80,6 +85,7 @@
   overflow-wrap: anywhere;
   resize: none;
   padding: 15px;
+  font-size: 15px;
   font-family: Sans-Serif;
   font-weight: 300;
 }

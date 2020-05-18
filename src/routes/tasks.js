@@ -53,7 +53,7 @@ router.get('/get-tasks', async (req, res, next) => {
 });
 
 router.post('/submit-annotations', async (req, res, next) => {
-  console.log('received annotations!', req.body);
+  console.log('received annotations!');
   const task_id = req.body.task_id;
   const annotations = req.body.annotations;
   const comments = req.body.comments;
@@ -80,7 +80,6 @@ router.post('/submit-annotations', async (req, res, next) => {
 });
 
 router.post('/submit-report', async (req, res, next) => {
-  console.log('received annotations!', req.body);
   const task_id = req.body.task_id;
   const comments = req.body.comments;
   try {
@@ -110,7 +109,6 @@ router.post('/submit-task', async (req, res, next) => {
   const img_url = req.body.img_url;
   const instructions = req.body.instructions;
   const task_id = uuid.v4();
-  console.log(objects_to_annotate, typeof(objects_to_annotate))
   mongodb.connect("mongodb+srv://takehome:takehome@cluster0-b1brn.mongodb.net/test?retryWrites=true&w=majority", function(err, client) {
     if(!err) {
       var db = client.db('Tasks');

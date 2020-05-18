@@ -180,12 +180,12 @@ class Task extends React.Component {
               <p>
                 <b>General instructions: </b>
                 Choose the desired label from the dropdown, then draw boxes around the corresponding locations in the image.
-                Press reset to erase all boxes, add any relevant comments, and submit when finished labeling.
-                Use next and previous to toggle between images.
+                Press reset to erase all boxes. You may leave any relevant comments in the comments box. Click submit when finished with this task.
+                Use next and previous to toggle between tasks.
                 If there is an issue with the image or instructions, fill out any relevant comments, and click report.
               </p>
               <p>
-                <b>Instructions from client:</b> {this.props.task.instructions}
+                <b>Client instructions:</b> {this.props.task.instructions}
               </p>
 
             </div>
@@ -206,11 +206,9 @@ class Task extends React.Component {
             <div id = 'AnnotationHeader' className = 'Header'>
               Labels
             </div>
-            <form id = 'LabelsForm'>
-            <select  value={this.state.current_annotation} onChange={this.handleObjectChange}>
+            <select id = 'LabelsForm' value={this.state.current_annotation} onChange={this.handleObjectChange}>
               {objects_to_annotate}
             </select>
-            </form>
           </div>
 
           <div id = 'CommentsContainer' className = 'Container'>
